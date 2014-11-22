@@ -43,6 +43,7 @@ var filters = {
 /**
  * @method mustShow
  * @private
+ * @param {Date} day Reference date object
  * @param {Object} task A task object
  * {
  *   text: 'foo',
@@ -53,10 +54,8 @@ var filters = {
  * of them returns true, the function will return true
  * @return Boolean True, if the task should be shown in a email becuase it's due or overdue
  */
-function mustShow(task, filterProps) {
+function mustShow(day, task, filterProps) {
 	var day, filterMap, taskDate;
-
-	day = new Date();
 
 	filterMap = {
 		past: filters.isPastDate,
@@ -77,15 +76,16 @@ function mustShow(task, filterProps) {
 	return false;
 }
 
-function TodotxtObjectStreamFilter(filterProps) {
+function TodotxtObjectStreamFilter(filterProps, refDate) {
 	this.filterProps = filterProps;
+	this.refDate = refDate || new Date();
 	Transform.call(this, {objectMode: true});
 }
 
 util.inherits(TodotxtObjectStreamFilter, Transform);
 
 TodotxtObjectStreamFilter.prototype._transform = function (data, enc, cb) {
-	if (mustShow(data, this.filterProps)) {
+	if (mustShow(this.refDate, data, this.filterProps)) {
 		this.push(data);
 	}
 	cb();

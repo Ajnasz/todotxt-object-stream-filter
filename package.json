@@ -20,5 +20,8 @@
     "debug": "^2.1.0",
     "lodash": "^2.4.1",
     "moment": "^2.8.4"
+  },
+  "devDependencies": {
+    "todotxt-object-stream": "^1.0.0"
   }
 }
