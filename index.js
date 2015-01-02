@@ -1,13 +1,12 @@
+'use strict';
 var Transform = require('stream').Transform;
 var util = require('util');
-var debug = require('debug')('todo-filter-stream');
+// var debug = require('debug')('todo-filter-stream');
 var lodash = require('lodash');
 var moment = require('moment');
 
 var filters = {
     isDateOnWeekWithOtherDate: function (date, matcher) {
-        'use strict';
-
         var dateClone = moment(date),
             matcherClone = moment(matcher);
 
@@ -18,7 +17,6 @@ var filters = {
     },
 
     isDateOnSameDayWithOtherDate: function (date, matcher) {
-        'use strict';
         var dateClone = moment(date),
             matcherClone = moment(matcher);
 
@@ -29,7 +27,6 @@ var filters = {
     },
 
     isPastDate: function (date, matcher) {
-        'use strict';
         var dateClone = moment(date),
             matcherClone = moment(matcher);
 
@@ -55,7 +52,7 @@ var filters = {
  * @return Boolean True, if the task should be shown in a email becuase it's due or overdue
  */
 function mustShow(day, task, filterProps) {
-	var day, filterMap, taskDate;
+	var filterMap, taskDate;
 
 	filterMap = {
 		past: filters.isPastDate,

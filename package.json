@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/Ajnasz/todotxt-object-stream-filter",
   "dependencies": {
-    "debug": "^2.1.0",
     "lodash": "^2.4.1",
     "moment": "^2.8.4"
   },
