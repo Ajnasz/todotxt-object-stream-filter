@@ -1,3 +1,4 @@
+'use strict';
 var assert = require('assert');
 
 var TodotxtObjectStream = require('todotxt-object-stream');
@@ -10,7 +11,11 @@ describe('Test if pipes all events which are needed', function () {
 
 	beforeEach(function () {
 		todotxtObjectStream = new TodotxtObjectStream();
-		todotxtObjectStreamFilter = new TodotxtObjectStreamFilter(['past', 'weekly', 'sameWeek'], new Date('2014-11-20'));
+		todotxtObjectStreamFilter = new TodotxtObjectStreamFilter({
+			past: true,
+			weekly: true,
+			sameWeek: true
+		}, new Date('2014-11-20'));
 		todotxtObjectStreamFilter.on('error', function (er) {
 			console.error(er);
 			process.exit(1);
@@ -26,7 +31,7 @@ describe('Test if pipes all events which are needed', function () {
 
 	it('should enable past events', function (done) {
 		var found = false;
-		todotxtObjectStreamFilter.on('data', function (d) {
+		todotxtObjectStreamFilter.on('data', function (/* d */) {
 			found = true;
 		});
 		todotxtObjectStream.once('end', function () {
@@ -37,8 +42,8 @@ describe('Test if pipes all events which are needed', function () {
 		todotxtObjectStream.end('Test1 due:2013-11-11');
 	});
 	it('should enable weekly events', function (done) {
-		var found = false;;
-		todotxtObjectStreamFilter.on('data', function (d) {
+		var found = false;
+		todotxtObjectStreamFilter.on('data', function (/* d */) {
 			found = true;
 		});
 		todotxtObjectStream.once('end', function () {
@@ -50,7 +55,7 @@ describe('Test if pipes all events which are needed', function () {
 	});
 	it('should enable same week events', function (done) {
 		var found = false;
-		todotxtObjectStreamFilter.on('data', function (d) {
+		todotxtObjectStreamFilter.on('data', function (/*d*/) {
 			found = true;
 		});
 		todotxtObjectStream.once('end', function () {

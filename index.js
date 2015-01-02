@@ -64,7 +64,7 @@ function mustShow(day, task, filterProps) {
 
 	if (taskDate) {
 		return lodash(filterMap)
-			.pick(filterProps)
+			.pick(lodash.keys(filterProps))
 			.some(function (filterFun) {
 			return filterFun(taskDate, day);
 		});
