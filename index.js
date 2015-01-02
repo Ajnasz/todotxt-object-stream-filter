@@ -5,10 +5,40 @@ var util = require('util');
 var lodash = require('lodash');
 var moment = require('moment');
 
+moment.locale('iso', {
+    months: [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December'
+	],
+    monthsShort: [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ],
+    weekdays: [
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    ],
+    weekdaysShort : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	weekdaysMin : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+    longDateFormat : {
+        LT: 'h:mm A',
+        LTS: 'h:mm:ss A',
+        L: 'MM/DD/YYYY',
+        LL: 'MMMM Do YYYY',
+        LLL: 'MMMM Do YYYY LT',
+        LLLL: 'dddd, MMMM Do YYYY LT'
+    },
+	week: {
+		dow: 1
+	}
+});
+
 var filters = {
     isDateOnWeekWithOtherDate: function (date, matcher) {
         var dateClone = moment(date),
             matcherClone = moment(matcher);
+
+		dateClone.locale('iso');
+		matcherClone.locale('iso');
 
 		dateClone.endOf('week').startOf('day');
 		matcherClone.endOf('week').startOf('day');
@@ -57,7 +87,14 @@ var filters = {
  *   due: '2011-11-11',
  *   treshold: '2011-11-11'
  * }
- * @param {Array} filterProps List of filter methods: ['past', 'sameDay'] Any
+ * @param {Object} filterProps List of filter methods:
+ * {
+ * past: true,
+ * sameDay: true,
+ * sameWeek: true,
+ * following: 12 // following 12 days
+ * }
+ * Any
  * of them returns true, the function will return true
  * @return Boolean True, if the task should be shown in a email becuase it's due or overdue
  */
