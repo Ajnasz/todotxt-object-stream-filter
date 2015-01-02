@@ -65,3 +65,52 @@ describe('Test if pipes all events which are needed', function () {
 		todotxtObjectStream.end('Test3 due:2014-11-22');
 	});
 });
+describe('Test if pipes all dates follwing by x days', function () {
+	var todotxtObjectStream;
+	var todotxtObjectStreamFilter;
+
+	beforeEach(function () {
+		todotxtObjectStream = new TodotxtObjectStream();
+		todotxtObjectStreamFilter = new TodotxtObjectStreamFilter({
+			following: 12
+		}, new Date('2014-11-20'));
+		todotxtObjectStreamFilter.on('error', function (er) {
+			console.error(er);
+			process.exit(1);
+		});
+		todotxtObjectStream.pipe(todotxtObjectStreamFilter);
+	});
+	afterEach(function () {
+		todotxtObjectStream.unpipe();
+		todotxtObjectStreamFilter.unpipe();
+		todotxtObjectStream = null;
+		todotxtObjectStreamFilter = null;
+	});
+
+	it('should enable next 12 days', function (done) {
+		var found = false;
+
+		todotxtObjectStreamFilter.on('data', function (/* d */) {
+			found = true;
+		});
+		todotxtObjectStream.once('end', function () {
+			assert(found);
+			done();
+		});
+
+		todotxtObjectStream.end('Test1 due:2014-12-02');
+	});
+	it('should disable days after next 12', function (done) {
+		var found = false;
+
+		todotxtObjectStreamFilter.on('data', function (/* d */) {
+			found = true;
+		});
+		todotxtObjectStream.once('end', function () {
+			assert(!found);
+			done();
+		});
+
+		todotxtObjectStream.end('Test1 due:2014-12-03');
+	});
+});

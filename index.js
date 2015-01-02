@@ -34,7 +34,17 @@ var filters = {
 		matcherClone.startOf('day');
 
         return dateClone.unix() < matcherClone.unix();
-    }
+    },
+
+	isDateFollowsOtherDate: function (date, matcher, days) {
+        var dateClone = moment(date),
+            matcherClone = moment(matcher);
+
+		dateClone.startOf('day');
+		matcherClone.startOf('day');
+
+		return (dateClone.unix() - matcherClone.unix()) / (60 * 60 * 24) <= days;
+	}
 };
 
 /**
@@ -57,7 +67,8 @@ function mustShow(day, task, filterProps) {
 	filterMap = {
 		past: filters.isPastDate,
 		sameDay: filters.isDateOnSameDayWithOtherDate,
-		sameWeek: filters.isDateOnWeekWithOtherDate
+		sameWeek: filters.isDateOnWeekWithOtherDate,
+		following: filters.isDateFollowsOtherDate
 	};
 
 	taskDate = task.due || task.treshold || null;
@@ -65,8 +76,8 @@ function mustShow(day, task, filterProps) {
 	if (taskDate) {
 		return lodash(filterMap)
 			.pick(lodash.keys(filterProps))
-			.some(function (filterFun) {
-			return filterFun(taskDate, day);
+			.some(function (filterFun, name) {
+			return filterFun(taskDate, day, filterProps[name]);
 		});
 	}
 
