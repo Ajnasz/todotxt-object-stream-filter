@@ -12,6 +12,9 @@ module.exports = function (grunt) {
 				},
 				src: ['test/*.js']
 			}
+		},
+		release: {
+			options: {}
 		}
 	});
 
