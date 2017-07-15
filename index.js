@@ -2,8 +2,11 @@
 var Transform = require('stream').Transform;
 var util = require('util');
 // var debug = require('debug')('todo-filter-stream');
-var lodash = require('lodash');
 var moment = require('moment');
+
+var pick = require('lodash.pick');
+var keys = require('lodash.keys');
+var some = require('lodash.some');
 
 moment.locale('iso', {
     months: [
@@ -111,9 +114,7 @@ function mustShow(day, task, filterProps) {
 	taskDate = task.due || task.treshold || null;
 
 	if (taskDate) {
-		return lodash(filterMap)
-			.pick(lodash.keys(filterProps))
-			.some(function (filterFun, name) {
+		return some(pick(filterMap, keys(filterProps)), function (filterFun, name) {
 			return filterFun(taskDate, day, filterProps[name]);
 		});
 	}

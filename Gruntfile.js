@@ -1,7 +1,6 @@
 module.exports = function (grunt) {
 	'use strict';
 	grunt.loadNpmTasks('grunt-mocha-test');
-	grunt.loadNpmTasks('grunt-release');
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		mochaTest: {
@@ -12,9 +11,6 @@ module.exports = function (grunt) {
 				},
 				src: ['test/*.js']
 			}
-		},
-		release: {
-			options: {}
 		}
 	});
 

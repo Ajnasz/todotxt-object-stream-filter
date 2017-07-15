@@ -18,14 +18,15 @@
   "homepage": "https://github.com/Ajnasz/todotxt-object-stream-filter",
   "dependencies": {
     "grunt-cli": "^1.2.0",
-    "lodash": "^4.17.4",
+    "lodash.keys": "^4.2.0",
+    "lodash.pick": "^4.4.0",
+    "lodash.some": "^4.6.0",
     "moment": "^2.8.4"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-mocha-test": "^0.12.4",
-    "grunt-release": "^0.9.0",
-    "mocha": "^2.0.1",
+    "grunt": "^1.0.1",
+    "grunt-mocha-test": "^0.13.2",
+    "mocha": "^3.4.2",
     "todotxt-object-stream": "^1.0.0"
   }
 }
